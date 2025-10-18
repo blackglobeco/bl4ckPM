@@ -10,6 +10,25 @@ load_dotenv()
 
 app = Flask(__name__)
 
+# JSON error handlers
+@app.errorhandler(404)
+def not_found(e):
+    if request.path.startswith('/api/'):
+        return jsonify({'error': 'Not found'}), 404
+    return render_template('404.html'), 404
+
+@app.errorhandler(500)
+def internal_error(e):
+    if request.path.startswith('/api/'):
+        return jsonify({'error': 'Internal server error'}), 500
+    return render_template('500.html'), 500
+
+@app.errorhandler(Exception)
+def handle_exception(e):
+    if request.path.startswith('/api/'):
+        return jsonify({'error': str(e)}), 500
+    raise e
+
 # Check for Vercel CLI on startup
 vercel_installed = shutil.which("vercel") is not None
 
