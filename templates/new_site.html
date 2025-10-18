@@ -104,6 +104,11 @@
                     body: JSON.stringify({ url })
                 });
                 
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    throw new Error('Server returned non-JSON response');
+                }
+                
                 const data = await response.json();
                 document.getElementById('progress1').style.display = 'none';
                 
@@ -128,6 +133,11 @@
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' }
                 });
+                
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    throw new Error('Server returned non-JSON response');
+                }
                 
                 const data = await response.json();
                 document.getElementById('progress2').style.display = 'none';
@@ -162,6 +172,11 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ interests })
                 });
+                
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    throw new Error('Server returned non-JSON response');
+                }
                 
                 const data = await response.json();
                 document.getElementById('progress3').style.display = 'none';
