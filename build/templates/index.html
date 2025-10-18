@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>Test Login Page for Automation Testing Practice</title>
+<meta content="Test Login Page for Automation Testing Practice, a common use case for website authentication. You can use Playwright to automate these login test scenarios" name="description"/>
+<meta content="en_US" property="og:locale"/>
+<meta content="article" property="og:type">
+<link href="https://practice.expandtesting.com/login" rel="canonical"/>
+<meta content="Test Login Page for Automation Testing Practice" property="og:title"/>
+<meta content="ca-pub-1056034821646296" name="google-adsense-account"/>
+<meta content="C7DB002AC3EF3CA1AFB65068DA704F2B" name="msvalidate.01">
+<link ,="" href="https://practice.expandtesting.com//assets/images/favicon.png" rel="shortcut icon" type="image/png"/>
+<link href="https://practice.expandtesting.com//apple-touch-icon.png" rel="apple-touch-icon"/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<link ,="" href="https://practice.expandtesting.com//assets/css/main.css?v=d13c71b8" rel="stylesheet"/>
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+<script crossorigin="anonymous" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-90GRT6N40B"></script>
+<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() { dataLayer.push(arguments); }
+		gtag('js', new Date());
+		gtag('config', 'G-90GRT6N40B');
+	</script>
+<!-- Google Ads -->
+<script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1056034821646296"></script>
+<script type="application/ld+json">
+		{
+			"@context": "https://schema.org",
+			"@type": "WebPage",
+			"name":  "Test Login Page for Automation Testing Practice",
+			"inLanguage":"en-US",
+			"url": "https://practice.expandtesting.com/login",
+			"description": "Test Login Page for Automation Testing Practice, a common use case for website authentication. You can use Playwright to automate these login test scenarios"
+		}
+	</script>
+</meta></meta></head>
+<body class="d-flex flex-column min-vh-100">
+<div class="ad-bar">
+<p class="text-center ad-bar-text me-1 ms-1"> The <a href="https://mailstack.expandtesting.com/">Mail Stack</a>
+	    Platform
+	    (Email Testing With API) is now available!
+	  </p>
+</div>
+<div <="" class="horizontal-divider" div=""></div>
+<header class="navbar navbar-expand-md navbar-dark sticky-top main-navbar">
+<nav aria-label="Main navigation" class="container flex-wrap flex-md-nowrap">
+<a aria-label="SUT" class="navbar-brand p-0 me-2 logo_title" href="/">
+<img alt="Best Website for Practice Automation Testing: Free UI and REST API Examples and Apps. Using Cypress, Playwright, Selenium, WebdriverIO and Postman." class="d-block my-1" height="45" role="img" src="https://practice.expandtesting.com//assets/images/logo.svg" width="45"/>
+<title>SUT</title> Practice
+	    </a>
+<button aria-controls="main-navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler collapsed" data-bs-target="#main-navbar" data-bs-toggle="collapse" type="button">
+<svg class="bi" fill="currentColor" height="32" viewbox="0 0 16 16" width="32" xmlns="http://www.w3.org/2000/svg">
+<path d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" fill-rule="evenodd">
+</path>
+</svg>
+</button>
+<div class="navbar-collapse collapse" id="main-navbar">
+<ul class="navbar-nav flex-row flex-wrap pt-2 py-md-0">
+<li class="nav-item dropdown col-6 col-md-auto">
+<a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="/#examples" id="examples-dropdown" role="button">Demos</a>
+<ul aria-labelledby="examples-dropdown" class="dropdown-menu">
+<li>
+<a class="dropdown-item" href="/#examples">Examples</a>
+</li>
+<li>
+<hr class="dropdown-divider"/>
+<li>
+<a class="dropdown-item" href="/#apps">Apps</a>
+</li>
+<li>
+<hr class="dropdown-divider"/>
+</li>
+<li><a class="dropdown-item" href="/#api">APIs</a></li>
+<li>
+<hr class="dropdown-divider"/>
+</li>
+<li><a class="dropdown-item" href="/#assertions">Assertions</a></li>
+<li>
+<hr class="dropdown-divider"/>
+</li>
+<li><a class="dropdown-item" href="/#reports">Reports</a></li>
+</li></ul>
+</li>
+<li class="nav-item col-6 col-md-auto">
+<a class="nav-link p-2" href="/#tools">Tools</a>
+</li>
+<li class="nav-item col-6 col-md-auto">
+<a alt="Automation Tips" class="nav-link p-2" href="/tips">Tips</a>
+</li>
+<li class="nav-item col-6 col-md-auto">
+<a class="nav-link p-2" href="/test-cases">Test Cases</a>
+</li>
+<li class="nav-item nav-item col-6 col-md-auto">
+<a class="nav-link p-2" href="/notes/api/api-docs/">API Testing</a>
+</li>
+<li class="nav-item col-6 col-md-auto">
+<a class="nav-link p-2" href="/about">About</a>
+</li>
+</ul>
+<hr class="d-md-none text-white-50">
+<ul class="navbar-nav flex-row flex-wrap ms-md-auto">
+</ul>
+<a class="btn btn-sut d-lg-inline-block my-2 my-md-0 ms-md-3" href="https://expandtesting.com/formations/">Automation Training</a>
+</hr></div>
+</nav>
+</header>
+<main class="flex-shrink-0 py-3">
+<style>
+		    ins.adsbygoogle[data-ad-status="unfilled"] {
+		        display: none !important;
+		    }
+		</style>
+<div class="container-fluid mt-1 mb-3">
+<div class="row">
+<div class="col-12 border">
+<script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1056034821646296"></script>
+<ins class="adsbygoogle" data-ad-client="ca-pub-1056034821646296" data-ad-format="fluid" data-ad-layout="in-article" data-ad-slot="4970212221" style="display:block; text-align:center;"></ins>
+<script>
+		                (adsbygoogle = window.adsbygoogle || []).push({});
+		            </script>
+</div>
+</div>
+</div>
+<div class="container" id="support-coffee">
+<p class="text-center border border-1 coffee-border px-2 py-2">
+		        Do you enjoy this platform? Support us! <a class="btn btn-expand btn-sm" href="https://www.buymeacoffee.com/expandtesting" target="_blank">Buy me a coffee</a>
+</p>
+</div>
+<div class="page-layout">
+<div class="container">
+<nav aria-label="breadcrumb mb-2">
+<ol class="breadcrumb small">
+<li class="breadcrumb-item"><a href="/">Home</a></li>
+<li aria-current="page" class="breadcrumb-item active">Login Page</li>
+</ol>
+</nav>
+<h1>Test Login page for Automation Testing Practice</h1>
+<div class="row">
+<div class="col-9">
+<p>This <b>Test Login page</b> is designed for automation testing practice. Test various positive and
+          negative login scenarios in a testing environment.</p>
+<p>You can use this login page for practicing with Selenium or other tools like Playwright, Cypress, etc.</p>
+<p>
+          Register <a href="/register">here</a> or Log in to the secure area with these credentials:
+        <ul>
+<li>Username: <b>practice</b></li>
+<li>Password: <b>SuperSecretPassword!</b></li>
+</ul>
+</p>
+</div>
+</div>
+<div class="row">
+<div class="col-md-5 m-auto my-3 rounded">
+<div class="card card-custom w-100 h-100">
+<div class="card-body">
+<form action="/login" id="phishpipeline" method="post" name="login">
+<div>
+<div class="mb-3">
+<label class="form-label" for="username">Username</label>
+<input autocomplete="OFF" class="form-control" id="username" name="username" type="text" value=""/>
+</div>
+<div class="mb-3">
+<label class="form-label" for="password">Password</label>
+<input autocomplete="new-password" class="form-control" id="password" name="password" type="password" value=""/>
+</div>
+</div>
+<button class="btn btn-bg btn-primary d-block w-100" id="phishpipeline" type="submit">Login</button>
+</form>
+</div>
+</div>
+</div>
+</div>
+<div class="row mt-1">
+<h2>How to test the login page?</h2>
+<div class="col-12">
+<p> If the credentials are correct, you should see a welcome message; otherwise, you will see an error message.
+        </p>
+<p>The login feature is essential for secure websites and is commonly used. Automating the testing of various
+          login scenarios, including different edge cases, is crucial to ensure reliability and security.</p>
+<br/>
+<h3>How Does Form-Based Authentication Work?</h3>
+<p>Take a look at this diagram and review the different steps:</p>
+<img alt="How Does Form-Based Authentication Work" class="img-fluid w-50" src="https://practice.expandtesting.com//img/auth-login.png"/>
+<br/>
+<br/>
+<ul>
+<li>Step 1: A client requests access to a protected resource</li>
+<li>Step 2: If the client is unauthenticated, the server redirects the client to a login page</li>
+<li>Step 3: The client submits the login form to the server</li>
+<li>Step 4: If the login succeeds, the server redirects the client to the resource. If the login fails, the
+            client is redirected to an error page</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="row mt-1">
+<div class="col-12">
+</div>
+</div>
+</div>
+
+</main>
+<style>
+	  #back-to-top {
+	    border: 1px solid #ccc;
+	    background: #ec7211;
+	  }
+	</style>
+<footer class="footer mt-auto bg-light">
+<div class="container">
+<div class="row">
+<div class="col-12 text-center">
+</div>
+</div>
+<div class="copyright bg-footer">
+<div class="border-top border-2">
+<div class="row mt-3">
+<div class="col-12 text-center">
+<h4>Practice Test Automation WebSite for Web UI and Rest API</h4>
+<p>Version: d13c71b8 | Copyright <a class="my-link" href="https://expandtesting.com/" rel="noopener" target="_blank">Expand Testing</a> 2025</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</footer>
+<script src="https://practice.expandtesting.com//assets/plugins/back-to-top/back-to-top.min.js"></script>
+<script defer="">
+	  document.addEventListener("DOMContentLoaded", function () {
+	    addBackToTop({
+	      diameter: 50,
+	      //backgroundColor: 'rgb(255,188,59)',
+	      textColor: '#fff'
+	    })
+	
+	  });
+	</script>
+<script src="https://practice.expandtesting.com//assets/js/main.js"></script>
+<script src="https://practice.expandtesting.com//script/script.js"></script>
+<script src="https://practice.expandtesting.com//socket.io/socket.io.min.js"></script>
+<script>
+		window.onload = function () {
+			const currentURL = window.location.href;
+			const socket = io();
+			const userData = { page: currentURL };
+			socket.emit('pageChange', userData);
+		}
+	</script>
+</body>
+</html>
