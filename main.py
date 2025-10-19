@@ -116,21 +116,27 @@ def deploy():
         )
         
         if result.returncode == 0:
-            # Extract the domain URL (format: project-name.vercel.app)
-            domain_pattern = r'https://([a-z0-9-]+\.vercel\.app)'
-            matches = re.findall(domain_pattern, result.stdout)
-            
+            # Extract the production domain URL from Vercel output
+            # Look for lines containing "Production:" or the project name domain
             deployment_url = None
-            if matches:
-                # Get the domain (not the deployment URL)
-                domain = matches[-1]  # Last match is usually the production domain
-                deployment_url = f"https://{domain}"
-            else:
-                # Fallback: extract any vercel URL
-                for line in result.stdout.split('\n'):
-                    if 'https://' in line and 'vercel.app' in line:
-                        deployment_url = line.strip()
-                        break
+            
+            # Try to find the production domain in the output
+            for line in result.stdout.split('\n'):
+                # Look for the production domain (project-name.vercel.app)
+                if 'Production:' in line or project_name in line:
+                    # Extract domain URL (without deployment hash)
+                    domain_match = re.search(r'https://([a-z0-9-]+\.vercel\.app)(?:\s|$)', line)
+                    if domain_match:
+                        potential_url = domain_match.group(0).strip()
+                        # Make sure it's the domain URL, not deployment URL
+                        # Domain URLs don't have the team/user hash suffix
+                        if potential_url.count('-') == project_name.count('-') + 1:
+                            deployment_url = potential_url
+                            break
+            
+            # Fallback: construct the URL from the project name
+            if not deployment_url:
+                deployment_url = f"https://{project_name}.vercel.app"
             
             if deployment_url:
                 # Save to sites.json
