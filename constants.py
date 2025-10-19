@@ -11,4 +11,5 @@ REQ_HEADERS = {
 
 # Vercel CLI constants
 VERCEL_INSTALL_URL = "https://vercel.com/docs/cli"
-VERCEL_DEPLOY_CMD = "vercel --cwd build/ --yes --prod"
+VERCEL_DEPLOY_CMD = "vercel deploy --prod --cwd build --yes"
+VERCEL_PROJECT_LIST_CMD = "vercel project ls"
