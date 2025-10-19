@@ -122,20 +122,26 @@ def deploy_phishing_page(result):
     
     print(output)
     
-    # Extract the domain URL (format: project-name-hash.vercel.app or project-name.vercel.app)
-    # Look for the production domain in the output
-    domain_pattern = r'https://([a-z0-9-]+\.vercel\.app)'
-    matches = re.findall(domain_pattern, output)
+    # Extract the production domain URL from Vercel output
+    url = None
     
-    if matches:
-        # Get the domain (not the deployment URL)
-        domain = matches[-1]  # Last match is usually the production domain
-        url = f"https://{domain}"
-    else:
-        # Fallback: extract any vercel URL
-        url_start = output.find("https://")
-        url_end = output.find("\n", url_start)
-        url = output[url_start:url_end].strip()
+    # Try to find the production domain in the output
+    for line in output.split('\n'):
+        # Look for the production domain (project-name.vercel.app)
+        if 'Production:' in line or project_name in line:
+            # Extract domain URL (without deployment hash)
+            domain_match = re.search(r'https://([a-z0-9-]+\.vercel\.app)(?:\s|$)', line)
+            if domain_match:
+                potential_url = domain_match.group(0).strip()
+                # Make sure it's the domain URL, not deployment URL
+                # Domain URLs don't have the team/user hash suffix
+                if potential_url.count('-') == project_name.count('-') + 1:
+                    url = potential_url
+                    break
+    
+    # Fallback: construct the URL from the project name
+    if not url:
+        url = f"https://{project_name}.vercel.app"
     
     # Add the newly deployed site's entry to the sites.json db
     try:
