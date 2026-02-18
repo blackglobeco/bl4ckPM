@@ -1,4 +1,5 @@
 [build]
+builder = "nixpacks"
 buildCommand = "npm install -g vercel && pip install -r requirements.txt"
 
 [deploy]
