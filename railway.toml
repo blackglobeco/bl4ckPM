@@ -3,4 +3,4 @@ builder = "nixpacks"
 buildCommand = "npm install -g vercel && pip install -r requirements.txt"
 
 [deploy]
-startCommand = "export PATH=$PATH:/usr/local/bin:/root/.npm-global/bin && python main.py"
+startCommand = "which vercel || find / -name 'vercel' -type f 2>/dev/null | head -5 && python main.py"
