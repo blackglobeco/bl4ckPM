@@ -1,0 +1,7 @@
+{
+  "name": "bl4ckPM",
+  "image": "mcr.microsoft.com/devcontainers/python:3.11",
+  "postCreateCommand": "pip install -r requirements.txt",
+  "postAttachCommand": "python main.py",
+  "forwardPorts": [5000]
+}
